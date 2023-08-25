@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temperature Control</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+</head>
+
+<body>
+  <div class="container mt-5 text-center">
+    <h1 class="mb-3">OpenBeken REST API demo</h1>
+    <p>Custom gui for any scriptable device</p>
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title mb-4">LED State</h2>
+            <button id="btnPower" class="btn btn-primary" onclick="sendCmnd('POWER TOGGLE')">Toggle</button>
+            <div id="wheelPicker"></div>
+            <div id="kelvinPicker"></div>
+            <div id="brightnessPicker"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+
+</html>
