@@ -34,18 +34,37 @@ let kelvinPicker = new iro.ColorPicker("#kelvinPicker", {
     ]
 });
 
-function changePowerButton(state) {
+function updateInfos(state) {
+    let infos = document.getElementById("infos");
+    infos.innerHTML = `
+    AP name : <b>${state.StatusSTS.Wifi.SSId}</b><br>
+    Wifi RSSI : <b>-${state.StatusSTS.Wifi.RSSI}dBm</b><br>
+    Device MAC Address: <b>${state.StatusNET.Mac}</b><br>
+    `;
+}
+
+function updatePowerButton(state) {
     changeButtonColor("btnPower", state.POWER == "ON" ? "btn-on" : "btn-off");
 }
 
+function changeOBKName(state) {
+    names = document.getElementsByClassName("dev-name");
+    for (let name of names) {
+        name.innerText = `OpenBeken - ${state.Status.DeviceName}`;
+    }
+}
+
 function togglePower() {
-    sendCmnd("power toggle", changePowerButton);
+    sendCmnd("power toggle", updatePowerButton);
 }
 
 window.onload = function () {
     sendCmnd("status", req => {
         let state = req.StatusSTS;
-        changePowerButton(state);
+        changeOBKName(req);
+        updatePowerButton(state);
+        updateInfos(req);
+
         
         let [r, g, b, c, w] = state.Color.split(',').map(e => parseInt(e));
         wheelPicker.color.rgb = {r: r, g: g, b: b};
@@ -76,5 +95,11 @@ window.onload = function () {
             sendCmnd("ct " + Math.floor(kelvinToMireds(color.kelvin)));
             inferColorHS(kelvinPicker, brightnessSlider);
         }));
+
+        setInterval(() => {
+            sendCmnd("status", (r) => {
+                updateInfos(r)
+            });
+        }, 20_000);
     })
 };
