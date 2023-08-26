@@ -1,0 +1,35 @@
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: center;
+}
+
+.card {
+    flex-direction: column;
+    flex: 1 1;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    align-content: center;
+    background-color: #607d8b;
+    margin: 15px;
+    max-width: 500px;
+    min-width: 350px;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.card-action {
+    border-top: 2px solid rgba(160,160,160,0.2);
+    position: relative;
+    padding: 16px 24px;
+}

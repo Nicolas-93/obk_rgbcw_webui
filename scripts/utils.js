@@ -29,7 +29,7 @@ function throttle(milliseconds, func) {
 
 function changeButtonColor(buttonId, colorClass) {
     const button = document.getElementById(buttonId);
-    button.classList.remove('btn-primary', 'btn-secondary', 'btn-success', 'btn-danger', 'btn-warning', 'btn-info', 'btn-light', 'btn-dark');
+    button.classList.remove('btn-unknown', 'btn-warning', 'btn-info', 'btn-on', 'btn-off');
     button.classList.add(colorClass);
 }
 

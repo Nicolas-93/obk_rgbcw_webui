@@ -34,11 +34,18 @@ let kelvinPicker = new iro.ColorPicker("#kelvinPicker", {
     ]
 });
 
+function changePowerButton(state) {
+    changeButtonColor("btnPower", state.POWER == "ON" ? "btn-on" : "btn-off");
+}
+
+function togglePower() {
+    sendCmnd("power toggle", changePowerButton);
+}
 
 window.onload = function () {
     sendCmnd("status", req => {
         let state = req.StatusSTS;
-        changeButtonColor("btnPower", state.POWER == "ON" ? "btn-success" : "btn-danger");
+        changePowerButton(state);
         
         let [r, g, b, c, w] = state.Color.split(',').map(e => parseInt(e));
         wheelPicker.color.rgb = {r: r, g: g, b: b};
