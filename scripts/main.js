@@ -36,7 +36,6 @@ let kelvinPicker = new iro.ColorPicker("#kelvinPicker", {
 
 
 window.onload = function () {
-
     sendCmnd("status", req => {
         let state = req.StatusSTS;
         changeButtonColor("btnPower", state.POWER == "ON" ? "btn-success" : "btn-danger");
@@ -58,17 +57,17 @@ window.onload = function () {
         }
 
         // Add callbacks only after init
-        brightnessSlider.on('color:change', throttle(reqLimit, function (color) {
+        brightnessSlider.on('input:change', throttle(reqLimit, color => {
             value = Math.floor(color.value);
             sendCmnd("Dimmer " + value);
         }));
-        wheelPicker.on('color:change', throttle(reqLimit, function (color) {
+        wheelPicker.on('input:change', throttle(reqLimit, color => {
             sendCmnd("led_basecolor_rgb " + color.hexString.slice(1));
             inferColorHS(wheelPicker, brightnessSlider);
         }));
-        kelvinPicker.on('color:change', throttle(reqLimit, function(color) {
+        kelvinPicker.on('input:change', throttle(reqLimit, color => {
             sendCmnd("ct " + Math.floor(kelvinToMireds(color.kelvin)));
             inferColorHS(kelvinPicker, brightnessSlider);
-        }))
+        }));
     })
 };
