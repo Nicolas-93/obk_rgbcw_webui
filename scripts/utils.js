@@ -1,21 +1,3 @@
-function sendCmnd(cmd, callback) {
-    let baseURL = "http://192.168.1.74";
-    console.log(`Send cmnd: '${cmd}'`);
-    console.log(baseURL + '/cm?cmnd=' + cmd);
-    fetch(baseURL + '/cm?cmnd=' + cmd, {
-        method: 'GET'
-    })
-    .then(rep => {
-        if (rep.ok && callback) {
-            rep.json().then(data => {
-                console.log("Received :");
-                console.log(data);
-                callback(data);
-            });
-        }
-    })
-}
-
 function throttle(milliseconds, func) {
     let last_call = 0;
     return function () {
