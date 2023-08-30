@@ -2,7 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const LinkTypePlugin = require('html-webpack-link-type-plugin').HtmlWebpackLinkTypePlugin
+// const LinkTypePlugin = require('html-webpack-link-type-plugin').HtmlWebpackLinkTypePlugin;
+const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   //path to entry paint
@@ -12,7 +14,6 @@ module.exports = {
     '@jaames/iro': 'iro'
   },
 
-  //path and filename of the final output
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js'
@@ -23,32 +24,19 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      minify: {
-        // OBK send header with Content-Type: application/octet-stream, and prevent CSS to load
-        removeStyleLinkTypeAttributes: false,
-        collapseWhitespace: true,
-        keepClosingSlash: true,
-        removeComments: true,
-        removeRedundantAttributes: true,
-        removeScriptTypeAttributes: true,
-        useShortDoctype: true
-      }
     }),
     new MiniCssExtractPlugin(),
-    new LinkTypePlugin()
+    new HTMLInlineCSSWebpackPlugin(),
   ],
+
   module: {
     rules: [
-      /*{
-          test: /.css$/,
-          use: [
-              'style-loader',
-              'css-loader'
-          ],
-      }*/
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
       },
       {
         test: /\.(?:js)$/,
@@ -57,7 +45,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              ['@babel/preset-env', { targets: "> 0.5%, last 2 versions, Firefox ESR, not dead" }]
+              ['@babel/preset-env', { targets: "Firefox ESR, > 0.5%, last 2 versions, not dead" }]
             ],
             plugins: [
               ["@babel/plugin-proposal-decorators", {legacy: true}],
@@ -67,5 +55,14 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+      new CssMinimizerPlugin(),
+    ],
+  },
 }

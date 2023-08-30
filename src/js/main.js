@@ -48,8 +48,8 @@ class Device {
     }
 
     sendCmnd(cmd, arg) {
-        let baseURL = "http://192.168.1.74";
-        let url = baseURL + '/cm?cmnd=' + cmd + ' ' + (arg || '');
+        let url = '' // "http://192.168.1.74"
+        url += '/cm?cmnd=' + cmd + ' ' + (arg || '');
         console.log(url);
         return fetch(url, {
             method: 'GET'
