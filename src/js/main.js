@@ -48,7 +48,7 @@ class Device {
     }
 
     sendCmnd(cmd, arg) {
-        let url = '' // "http://192.168.1.74"
+        let url = ''; // "http://192.168.1.74"
         url += '/cm?cmnd=' + cmd + ' ' + (arg || '');
         console.log(url);
         return fetch(url, {
@@ -67,11 +67,13 @@ class Device {
     }
 
     isPoweredOn() {
-        return this.status['Status']['Power'] == "ON";
+        return this.status['StatusSTS']['POWER'] == "ON";
     }
 
     togglePower() {
-        this.sendCmnd("power toggle");
+        return this.sendCmnd("power toggle").then((new_state) => {
+            Object.assign(this.status['StatusSTS'], new_state);
+        })
     }
 
     getWifiStatus() {
@@ -167,7 +169,12 @@ window.onload = function () {
         kelvinPicker.on('input:change', color => {
             dev.setColorCW(color.kelvin);
             utils.inferColorHS(kelvinPicker, brightnessSlider);
-        });        
+        });
+        document.getElementById("btnPower").addEventListener("click", () => {
+            dev.togglePower()
+            .then(() => {
+                updatePowerButton(dev);
+            })
+        });
     });
-
 }
