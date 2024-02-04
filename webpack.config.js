@@ -19,7 +19,9 @@ module.exports = {
     filename: 'main.js'
   },
   mode: 'production',
-  //devtool: "inline-source-map",
+  // mode: 'development',
+  // mode: 'production',
+  // devtool: "inline-source-map",
 
   plugins: [
     new HtmlWebpackPlugin({

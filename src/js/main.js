@@ -1,4 +1,5 @@
-const reqLimit = 70 /*ms*/
+const reqLimit = 90 /*ms*/
+
 import * as utils from "./utils.js";
 import iro from '@jaames/iro';
 import { throttle } from "./utils.js";
@@ -48,7 +49,7 @@ class Device {
     }
 
     sendCmnd(cmd, arg) {
-        let url = ''; // "http://192.168.1.74"
+        let url = "";
         url += '/cm?cmnd=' + cmd + ' ' + (arg || '');
         console.log(url);
         return fetch(url, {
@@ -96,7 +97,7 @@ class Device {
     @throttle(reqLimit)
     setColorRGB(hexColor) {
         console.log(this);
-        this.sendCmnd("led_basecolor_rgb " + hexColor.slice(1));
+        this.sendCmnd("led_basecolor_rgb", hexColor.slice(1));
     }
 
     getColorCW() {
@@ -105,7 +106,7 @@ class Device {
 
     @throttle(reqLimit)
     setColorCW(kelvins) {
-        this.sendCmnd("ct " + Math.floor(utils.kelvinToMireds(kelvins)));
+        this.sendCmnd("ct", Math.floor(utils.kelvinToMireds(kelvins)));
     }
 
     getColorMode() {
@@ -119,7 +120,7 @@ class Device {
 
     @throttle(reqLimit)
     setDimmer(value) {
-        this.sendCmnd("Dimmer " + Math.floor(value));
+        this.sendCmnd("Dimmer", Math.floor(value));
     }
 }
 
